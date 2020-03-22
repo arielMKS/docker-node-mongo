@@ -3,8 +3,6 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 
-let todos = ["init"];
-
 // STEP 1: Create connection to local database
 let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/todos";
 mongoose
@@ -30,27 +28,38 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.set("view engine", "ejs");
 
-app.get("/", function(req, res) {
-  //   console.log("Hello from home page");
-  res.render("index.ejs", { todos: todos });
-});
+app.use(express.static("public"));
 
-app.get("/api", function(req, res) {
-  res.send("Hi from /api");
+app.get("/", function(req, res) {
+  // fetch database and send ejs markup to client
+  Todo.find({})
+    .then(response => {
+      console.log("Fetching db");
+      res.render("index.ejs", { todos: response });
+    })
+    .catch(err => console.log("Error"));
 });
 
 app.post("/todo", function(req, res) {
+  // create new record with todo item
   Todo.create({
     name: req.body.todo
   })
     .then(todo => {
-      console.log("Successfully added ", todo);
-      res.send("success");
+      // console.log("Successfully added", todo);
+      res.redirect("/");
     })
     .catch(err => res.send(err));
+});
 
-  //   todos.push(todo);
-  //   res.render("index.ejs", { todos: todos });
+app.delete("/deleteAll", function(req, res) {
+  console.log("Delete all firing");
+  Todo.deleteMany({})
+    .then(response => {
+      console.log("Deleted db contents", response);
+      res.redirect("/");
+    })
+    .catch(err => console.log("Error"));
 });
 
 app.listen(8080, function(req, res) {
