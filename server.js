@@ -3,6 +3,8 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const app = express();
 
+const PORT = process.env.PORT || 8080;
+
 // STEP 1: Create connection to local database
 // let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/todos";
 let MONGODB_URI =
@@ -84,6 +86,6 @@ app.delete("/deleteAll", function(req, res) {
   //     .catch(err => console.log("Error"));
 });
 
-app.listen(8080, function(req, res) {
+app.listen(PORT, function(req, res) {
   console.log("Server running on port 8080");
 });
