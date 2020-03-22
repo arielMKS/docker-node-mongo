@@ -41,25 +41,43 @@ app.get("/", function(req, res) {
 });
 
 app.post("/todo", function(req, res) {
-  // create new record with todo item
   Todo.create({
     name: req.body.todo
   })
     .then(todo => {
-      // console.log("Successfully added", todo);
       res.redirect("/");
     })
     .catch(err => res.send(err));
 });
 
 app.delete("/deleteAll", function(req, res) {
-  console.log("Delete all firing");
-  Todo.deleteMany({})
-    .then(response => {
-      console.log("Deleted db contents", response);
-      res.redirect("/");
-    })
-    .catch(err => console.log("Error"));
+  // mongoose.connection.db.dropCollection('todos', function(err, result) {...});
+  console.log("/deleteAll");
+  res.end();
+
+  // DELETE COLLECTION
+  //   Todo.collection
+  //     .drop()
+  //     .then(response => {
+  //       console.log("Response", response);
+  //       res.redirect("/");
+  //     })
+  //     .catch(err => console.log(err));
+
+  // DELETE BY ID
+  //   Todo.findById({ _id: "5e77b328e5a389126ab4ae91" })
+  //     .then(dbModel => {
+  //       dbModel.remove();
+  //       res.json(dbModel);
+  //     })
+  //     .catch(err => res.status(422).json(err));
+
+  //   Todo.deleteMany({})
+  //     .then(response => {
+  //       console.log("Deleted db contents", response);
+  //       res.redirect("/");
+  //     })
+  //     .catch(err => console.log("Error"));
 });
 
 app.listen(8080, function(req, res) {
