@@ -4,14 +4,18 @@ const mongoose = require("mongoose");
 const app = express();
 
 // STEP 1: Create connection to local database
-let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/todos";
+// let MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/todos";
+let MONGODB_URI =
+  process.env.MONGODB_URI ||
+  "mongodb://user2:password1@ds249757.mlab.com:49757/heroku_sqsv2cnj";
+
 mongoose
   .connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
   .then(() => console.log("MongoDb connected!"))
-  .catch(err => console.log(err));
+  .catch(err => console.log("There was an error", err));
 
 // STEP 2: Create schema
 const todoschema = new mongoose.Schema({
