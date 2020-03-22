@@ -1,0 +1,15 @@
+<h1>My todo app</h1>
+
+<form action="/todo" method="POST">
+  Todo: <input name="todo" type="text" />
+
+  <input type="submit" value="Add" />
+</form>
+
+<ul>
+  <% todos.forEach( item=> { %>
+  <li>
+    <%= item %>
+  </li>
+  <% }); %>
+</ul>
